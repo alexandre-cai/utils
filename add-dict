@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+const fs = require("fs")
+const { resolve } = require("path")
+
+const path = resolve(process.env.HOME, ".vscode/inject/dictionary.txt")
+
+const source = fs.readFileSync(path, "utf-8").trim().split("\n")
+source.push(...args)
+
+fs.writeFileSync(path, [...new Set(source.sort())].map(x => x.toLowerCase()).join("\n"))
+
+if (args.length) {
+  console.log(`Added ${args.join(", ")} to Visual Studio Code dictionary`)
+} else {
+  console.log("No words are added to the dictionary.")
+}
+
+// Put this in vscode/settings.json:
+
+// // Extensions
+// "cSpell.dictionaryDefinitions": [
+//   {
+//     "name": "user",
+//     "path": "/Users/$USERNAME/.vscode/inject/dictionary.txt"
+//   }
+// ],
