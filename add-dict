@@ -3,6 +3,9 @@ const fs = require("fs")
 const { resolve } = require("path")
 
 const path = resolve(process.env.HOME, ".vscode/inject/dictionary.txt")
+if (!fs.existsSync(path)) {
+  fs.writeFileSync(path, "")
+}
 
 const source = fs.readFileSync(path, "utf-8").trim().split("\n")
 source.push(...args)
